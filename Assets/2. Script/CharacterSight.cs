@@ -10,9 +10,11 @@ public class CharacterSight : MonoBehaviour
     private Transform cachedTransform = null;
 
     private float fov = 90f;
-    private int rayCount = 90;
+
+    private int rayCount = 360;
 
     private float viewDistance = 8f;
+    private float surroundingDistance = 2f;
 
     private LayerMask layerMask;
 
@@ -48,9 +50,12 @@ public class CharacterSight : MonoBehaviour
     {
         Vector3 position = cachedTransform.position;
         Vector3 origin = position + urpSightObjectTransform.localPosition;
-
-        float angle = Utilities.GetAngleFromVector(direction) - (fov * 0.5f);
-        float angleIncrease = fov / rayCount;
+        
+        float startAngle, endAngle, angle;
+        startAngle = angle = Utilities.GetAngleFromVector(direction) - (fov * 0.5f);
+        endAngle = startAngle + fov;
+        
+        float angleIncrease = 360f / rayCount;
 
         Vector3[] vertices = new Vector3[rayCount + 1 + 1];
         Vector2[] uv = new Vector2[vertices.Length];
@@ -64,8 +69,9 @@ public class CharacterSight : MonoBehaviour
         {
             Vector3 vertex = Vector3.zero;
             Vector3 rayDirection = Utilities.GetVectorFromAngle(angle);
-
+            float viewDistance = angle < startAngle || angle > endAngle ? surroundingDistance : this.viewDistance;
             RaycastHit2D hitObject = Physics2D.Raycast(origin, rayDirection, viewDistance, layerMask);
+
             if (hitObject)
             {
                 vertex = hitObject.point;

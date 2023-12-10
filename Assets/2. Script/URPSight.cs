@@ -1,13 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterSight : MonoBehaviour
+public class URPSight : MonoBehaviour
 {
     
     #region Variables
 
     private Transform cachedTransform = null;
+    private Transform sightObjectTransform = null;
+
+    private Mesh sightMesh = null;
+    private MeshFilter sightMeshFilter = null;
 
     private float fov = 90f;
 
@@ -22,18 +24,14 @@ public class CharacterSight : MonoBehaviour
 
     #region URP Sight
 
-    private Transform urpSightObjectTransform = null;
-    private Mesh sightMesh = null;
-    private MeshFilter sightMeshFilter = null;
-
     #endregion URP Sight
 
     private void Awake()
     {
         cachedTransform = transform;
-        urpSightObjectTransform = cachedTransform.GetChild(0);
+        sightObjectTransform = cachedTransform.GetChild(0);
 
-        sightMeshFilter = urpSightObjectTransform.GetComponent<MeshFilter>();
+        sightMeshFilter = sightObjectTransform.GetComponent<MeshFilter>();
         
         sightMesh = new();
         sightMeshFilter.mesh = sightMesh;
@@ -49,7 +47,7 @@ public class CharacterSight : MonoBehaviour
     private void DrawSightWithURP(Vector2 direction)
     {
         Vector3 position = cachedTransform.position;
-        Vector3 origin = position + urpSightObjectTransform.localPosition;
+        Vector3 origin = position + sightObjectTransform.localPosition;
         
         float startAngle, endAngle, angle;
         startAngle = angle = Utilities.GetAngleFromVector(direction) - (fov * 0.5f);

@@ -35,6 +35,8 @@ public class CharacterSight : MonoBehaviour
         
         sightMesh = new();
         sightMeshFilter.mesh = sightMesh;
+
+        layerMask = LayerMask.GetMask(TagAndLayer.Layer.WALL);
     }
 
     private void Update()

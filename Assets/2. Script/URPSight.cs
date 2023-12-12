@@ -114,7 +114,7 @@ public class URPSight : MonoBehaviour
     /// <param name="direction">The direction the character is facing</param>
     private void DrawSightWithURP(Vector2 direction)
     {
-        Vector3 origin = sightObjectTransform.position;
+        origin = sightObjectTransform.position;
 
         // Set the FOV range according to the given direction
         float angle = Utilities.GetAngleFromVector(direction) - (fov * 0.5f);

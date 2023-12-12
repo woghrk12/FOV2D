@@ -6,6 +6,9 @@ public class SpriteMaskSight : MonoBehaviour
 {
     #region Variables
 
+    private Camera mainCamera = null;
+    private Vector3 direction = Vector3.right;
+
     [Header("Transform component for raycasting")]
     private Transform sightObjectTransform = null;
 
@@ -97,7 +100,12 @@ public class SpriteMaskSight : MonoBehaviour
 
     private void Update()
     {
-        DrawSightWithSpriteMask(Vector2.right);
+        if (Input.GetMouseButton(0))
+        {
+            direction = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - sightObjectTransform.position).normalized;
+        }
+
+        DrawSightWithSpriteMask(direction);
     }
 
     #endregion Unity Events

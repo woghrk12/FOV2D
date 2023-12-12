@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class URPSight : MonoBehaviour
 {
-    
     #region Variables
+
+    private Camera mainCamera = null;
+    private Vector3 direction = Vector3.right;
 
     [Header("Transform components for raycasting")]
     private Transform sightObjectTransform = null;
@@ -82,6 +84,8 @@ public class URPSight : MonoBehaviour
 
     private void Awake()
     {
+        mainCamera = Camera.main;
+
         sightObjectTransform = transform.GetChild(0);
 
         sightMeshFilter = sightObjectTransform.GetComponent<MeshFilter>();
@@ -100,7 +104,12 @@ public class URPSight : MonoBehaviour
 
     private void Update()
     {
-        DrawSightWithURP(Vector2.right);
+        if (Input.GetMouseButton(0))
+        {
+            direction = (mainCamera.ScreenToWorldPoint(Input.mousePosition) - sightObjectTransform.position).normalized;
+        }
+
+        DrawSightWithURP(direction);
     }
 
     #endregion Unity Events

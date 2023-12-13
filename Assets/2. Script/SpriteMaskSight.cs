@@ -83,6 +83,7 @@ public class SpriteMaskSight : MonoBehaviour
 
     private void Awake()
     {
+        mainCamera = Camera.main;
         sightObjectTransform = transform.GetChild(0);
 
         spriteMask = sightObjectTransform.GetComponent<SpriteMask>();
